@@ -5,6 +5,10 @@
    <MASTER_LANGUAGE>D</MASTER_LANGUAGE>
    <STARTING_FOLDER>/src/</STARTING_FOLDER>
    <FOLDER_LOGIC>FULL</FOLDER_LOGIC>
+   <IGNORE>
+    <item>/src/ymj_count_characters.prog.abap</item>
+    <item>/src/ymj_count_characters.prog.xml</item>
+   </IGNORE>
   </DATA>
  </asx:values>
 </asx:abap>
