@@ -101,4 +101,3 @@ Lesson Learned:
  - Akzeptanztest sukzessive aufbauen dient der Übersicht. Kleine Schritte. Nur ein Test, der gewartet werden muss.
  - Zu wenig "Tell don't ask" angewendet. 
  - Die Integration von Objekten schneller realisieren, dient dem Handling der Daten (Ergebnis-Objekt sinnvoll hier) 
- - 
