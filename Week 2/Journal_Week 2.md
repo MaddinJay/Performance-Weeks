@@ -63,3 +63,24 @@ Lesson Learned:
  - Everythin is an Object, ein sehr sinnvolles Prinzip. Die Objekte sind so leicht zu handeln.
  - Für L
  - Keine Hektik, auch wenn Zeit abläuft. Lieber in Qualittät als Quantität investieren.
+
+# Day 9
+
+Vorbereitungen:
+ - Fokus auf London School of TDD, Walking Skeleton
+ - Ziel definiert: SAP GUI erstellen, so dass eine Spielrunde visualisiert wird
+
+Umsetzung:
+ - Reportanlage mit Screen relativ zügig umgesetzt. 
+ - Erst ohne Verarbeitungsklasse gearbeitet.
+ - Screen eingebunden, wobei die Anlage des STATUS mit anschliessenden Zurückspringen sehr schleppend verlief.
+ - Als Workflow stand, Klasse für die Verarbeitung integriert. 
+ - Noch keine UNIT-Tests angelegt, da erst einmal mit Dummywerten gearbeitet wird.
+
+Lesson Learned:
+ - Programmierung von Klassen und Handling von Eclipse wird zügiger.
+ - Reportanlage mit Screen und Navigation arg in Vergessenheit geraten -> Nächstes Mal vorab auffrischen
+ - Durch schleppende STATUS-Integration kein richtiger Flow entstanden im ersten Teil der Umsetzung.
+ - Den Workflow gleich anfangs zu integrieren ist vergleichsweise mühsam.
+ - Wenn Workflow steht, überwiegt die Visualisierung der Ergebnisse. Echter Mehrwert.
+ - Workflow gibt auch gute Struktur vor, wie es weitergehen kann mit der Integration der nächsten Klasse(n)
