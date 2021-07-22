@@ -84,3 +84,26 @@ Lesson Learned:
  - Den Workflow gleich anfangs zu integrieren ist vergleichsweise mühsam.
  - Wenn Workflow steht, überwiegt die Visualisierung der Ergebnisse. Echter Mehrwert.
  - Workflow gibt auch gute Struktur vor, wie es weitergehen kann mit der Integration der nächsten Klasse(n)
+
+# Day 10
+
+Vorbereitungen:
+ - Weiterhin Fokus auf London School of TDD
+ - Ziel definiert: Selber Ansatz wie am Tag 9, durch flüssigere Umsetzung weiter im Konzept kommen.
+ - Insbesondere anfangen mit dem Transfer des Protocol-Spielfeldes in handelbare Zell-Objekte
+
+Umsetzung:
+ - Report analog Tag 9 angelegt. Visualisierung sehr zügig erreicht. 
+ - Leicht gespickt, als es darum geht, die ALV-Klasse zu integrieren.
+ - Navigation vom GUI Dynpro gelingt auf Anhieb.
+ - Vorerst Verzicht auf UNIT-Tests, da durch Fachtest das Ergebnis vergleichbar ist
+ - Dann Integration des Transfers der Tabellenansicht für das Spielfeld in eine Zell-Objekt-Liste
+ - Flow kann beibehalten werden, Duplizierte Methoden werden als TODO festgehalten, da vorerst nicht
+   der Flow gestärt werden soll.
+ - Erste Zellobkjekte aufgebaut, Logik noch nicht final. Weitere Kapselung/Auslagerung sicherlich später sinnvoll.
+
+Lesson Learned:
+ - Mit jedem Neuansatz gestaltet sich die Lösung immer ein wenig anders.
+ - Konzentration auf Form wahren. Nicht zu schnell vorwärts wollen, sondern den Refactoring-Zyklus konzentriert annehmen
+ - Anlage GUI klappt wieder leicht -> Gute Vorbereitung sicherlich manchmal sinnvoll.
+ - Code-Katas mehrfach hinterinander zu wiederholen erscheint sinnvoll, da Lösungsalternativfindung gestärkt wird. 
