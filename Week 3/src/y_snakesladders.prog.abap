@@ -5,35 +5,91 @@
 *&---------------------------------------------------------------------*
 REPORT y_snakesladders.
 
-CLASS ycl_player DEFINITION.
+INTERFACE yif_snake_ladder.
+  TYPES: ty_square TYPE int1.
+
+  METHODS:
+    get_square IMPORTING iv_square        TYPE ty_square
+               RETURNING VALUE(rv_square) TYPE ty_square.
+ENDINTERFACE.
+
+CLASS ycl_snake DEFINITION FINAL.
 
   PUBLIC SECTION.
+    INTERFACES: yif_snake_ladder.
+
+    TYPES: BEGIN OF ts_snake,
+             tale_square TYPE int1,
+             head_square TYPE int1,
+           END OF ts_snake,
+           tt_snake TYPE STANDARD TABLE OF ts_snake WITH DEFAULT KEY.
+
     METHODS:
-      constructor  IMPORTING iv_player TYPE int1,
-      set_position IMPORTING iv_die_one TYPE int1
-                             iv_die_two TYPE int1,
-      get_position RETURNING VALUE(rv_position) TYPE int1.
+      constructor.
 
   PRIVATE SECTION.
     DATA:
-      mv_player   TYPE int1,
-      mv_position TYPE int1.
+      mt_snakes TYPE ycl_snake=>tt_snake.
 
 ENDCLASS.
 
-CLASS ycl_player IMPLEMENTATION.
+CLASS ycl_snake IMPLEMENTATION.
 
   METHOD constructor.
-    mv_player = iv_player.
+    mt_snakes = VALUE tt_snake( ( head_square = 16 tale_square = 6 )
+                                ( head_square = 46 tale_square = 25 ) ).
   ENDMETHOD.
 
-  METHOD set_position.
-    mv_position = mv_position + iv_die_one + iv_die_two.
+  METHOD yif_snake_ladder~get_square.
+    TRY.
+        ##TODO "ExceptionHandling für Workflow missbraucht -> zu ändern
+        rv_square = mt_snakes[ head_square = iv_square ]-tale_square.
+      CATCH cx_root.
+        rv_square = iv_square.
+    ENDTRY.
   ENDMETHOD.
 
-  METHOD get_position.
-    rv_position = mv_position.
+ENDCLASS.
+
+CLASS ycl_ladder DEFINITION FINAL.
+
+  PUBLIC SECTION.
+    TYPES: BEGIN OF ts_ladder,
+             bottom_square TYPE int1,
+             top_square    TYPE int1,
+           END OF ts_ladder,
+           tt_ladder TYPE STANDARD TABLE OF ts_ladder WITH DEFAULT KEY.
+
+    INTERFACES: yif_snake_ladder.
+    METHODS:
+      constructor.
+
+  PRIVATE SECTION.
+    DATA:
+      mt_ladders TYPE ycl_ladder=>tt_ladder.
+
+ENDCLASS.
+
+CLASS ycl_ladder IMPLEMENTATION.
+
+  METHOD constructor.
+    ##TODO " Weitere Felder ergänzen mit Testklasse ergänzen, um Befüllung zu prüfen
+    mt_ladders = VALUE tt_ladder( ( bottom_square = 2 top_square = 38 )
+                                  ( bottom_square = 7 top_square = 14 )
+                                  ( bottom_square = 8 top_square = 31 ) ).
   ENDMETHOD.
+
+
+  METHOD yif_snake_ladder~get_square.
+    TRY.
+        ##TODO "ExceptionHandling für Workflow missbraucht -> zu ändern
+        rv_square = mt_ladders[ bottom_square = iv_square ]-top_square.
+      CATCH cx_root.
+        rv_square = iv_square.
+    ENDTRY.
+
+  ENDMETHOD.
+
 
 ENDCLASS.
 
@@ -44,124 +100,98 @@ CLASS ycl_snakes_ladders DEFINITION FINAL.
       constructor,
       play IMPORTING iv_die_one       TYPE int1
                      iv_die_two       TYPE int1
-           RETURNING VALUE(rv_result) TYPE string.
+           RETURNING VALUE(rv_result) TYPE int1.
 
   PRIVATE SECTION.
-    DATA: mv_current_player TYPE int1,
-          mt_players        TYPE STANDARD TABLE OF REF TO ycl_player.
+    DATA:
+      mo_ladder TYPE REF TO yif_snake_ladder,
+      mo_snake  TYPE REF TO yif_snake_ladder.
 
     METHODS:
-      change_player,
-      get_new_position      IMPORTING iv_die_one         TYPE int1
-                                      iv_die_two         TYPE int1
-                            RETURNING VALUE(rv_position) TYPE int1,
-      get_players_position  RETURNING VALUE(rv_position) TYPE int1,
-      set_players_position  IMPORTING iv_die_one TYPE int1
-                                      iv_die_two TYPE int1,
-      get_result_text       RETURNING VALUE(r_result) TYPE string,
-      create_player         IMPORTING iv_player TYPE int1,
-      set_starting_player_one.
+      look_for_climb_up IMPORTING iv_square        TYPE int1
+                        RETURNING VALUE(rv_square) TYPE int1,
+      create_ladders,
+      look_for_slide_down IMPORTING iv_square        TYPE int1
+                          RETURNING VALUE(rv_result) TYPE int1,
+      create_snakes.
 
 ENDCLASS.
 
 CLASS ycl_snakes_ladders IMPLEMENTATION.
 
   METHOD constructor.
-    create_player( 1 ).
-    create_player( 2 ).
-    set_starting_player_one( ).
+    create_ladders( ).
+    create_snakes( ).
+  ENDMETHOD.
+
+  METHOD create_ladders.
+    mo_ladder = NEW ycl_ladder( ).
   ENDMETHOD.
 
   METHOD play.
-    set_players_position( iv_die_one = iv_die_one
-                          iv_die_two = iv_die_two ).
-    rv_result = get_result_text( ).
-    change_player( ).
+    rv_result = iv_die_one + iv_die_two.
+    rv_result = look_for_climb_up( rv_result ).
+    rv_result = look_for_slide_down( rv_result ).
   ENDMETHOD.
 
-  METHOD set_starting_player_one.
-    mv_current_player = 1.
+  METHOD look_for_slide_down.
+    rv_result = mo_snake->get_square( iv_square ).
   ENDMETHOD.
 
-  METHOD create_player.
-    APPEND NEW ycl_player( iv_player = iv_player ) TO mt_players.
+  METHOD look_for_climb_up.
+    rv_square = mo_ladder->get_square( iv_square ).
   ENDMETHOD.
 
-  METHOD get_result_text.
-    r_result = SWITCH #( get_players_position( )
-                         WHEN 100 THEN |Player { mv_current_player } wins!|
-                         ELSE |Player { mv_current_player } is on square { get_players_position( ) }| ).
-  ENDMETHOD.
-
-  METHOD change_player.
-    mv_current_player = COND #( WHEN mv_current_player = 1 THEN 2
-                                WHEN mv_current_player = 2 THEN 1 ).
-  ENDMETHOD.
-
-  METHOD get_new_position.
-    rv_position = iv_die_one + iv_die_two.
-  ENDMETHOD.
-
-  METHOD get_players_position.
-    rv_position = mt_players[ mv_current_player ]->get_position( ).
-  ENDMETHOD.
-
-  METHOD set_players_position.
-    mt_players[ mv_current_player ]->set_position( iv_die_one = iv_die_one
-                                                   iv_die_two = iv_die_two ).
+  METHOD create_snakes.
+    mo_snake = NEW ycl_snake( ).
   ENDMETHOD.
 
 ENDCLASS.
 
-CLASS ltcl_snakes_ladders DEFINITION FOR TESTING
+CLASS ltcl_snakes_ladders DEFINITION FINAL FOR TESTING
   DURATION SHORT
   RISK LEVEL HARMLESS.
 
   PRIVATE SECTION.
-    METHODS:
-      player_1_throws_again FOR TESTING,
-      player_2_throws_again FOR TESTING,
-      player_1_wins FOR TESTING.
-ENDCLASS.
+    DATA:
+      mo_cut TYPE REF TO ycl_snakes_ladders.
 
+    METHODS:
+      setup,
+      normal_try       FOR TESTING,
+      climb_up_ladder  FOR TESTING,
+      slide_down_snake FOR TESTING.
+
+ENDCLASS.
 
 CLASS ltcl_snakes_ladders IMPLEMENTATION.
 
-  METHOD player_1_throws_again.
-    DATA(lo_cut) = NEW ycl_snakes_ladders( ).
-    lo_cut->play( iv_die_one = 3
-                  iv_die_two = 2 ).
-    lo_cut->play( iv_die_one = 3
-                  iv_die_two = 3 ).
-    cl_abap_unit_assert=>assert_equals( exp = 'Player 1 is on square 10'
-                                        act = lo_cut->play( iv_die_one = 3
+  METHOD setup.
+    mo_cut = NEW ycl_snakes_ladders( ).
+  ENDMETHOD.
+
+  METHOD normal_try.
+    cl_abap_unit_assert=>assert_equals( exp = 3
+                                        act = mo_cut->play( iv_die_one = 1
                                                             iv_die_two = 2 ) ).
   ENDMETHOD.
 
-  METHOD player_2_throws_again.
+  METHOD climb_up_ladder.
     DATA(lo_cut) = NEW ycl_snakes_ladders( ).
-    lo_cut->play( iv_die_one = 3
-                  iv_die_two = 2 ).
-    lo_cut->play( iv_die_one = 3
-                  iv_die_two = 3 ).
-    lo_cut->play( iv_die_one = 3
-                  iv_die_two = 3 ).
-    cl_abap_unit_assert=>assert_equals( exp = 'Player 2 is on square 11'
-                                        act = lo_cut->play( iv_die_one = 3
-                                                            iv_die_two = 2 ) ).
+    cl_abap_unit_assert=>assert_equals( exp = 38
+                                        act = mo_cut->play( iv_die_one = 1
+                                                            iv_die_two = 1 ) ).
   ENDMETHOD.
 
-  METHOD player_1_wins.
+  METHOD slide_down_snake.
     DATA(lo_cut) = NEW ycl_snakes_ladders( ).
-    DO 9 TIMES.
-      lo_cut->play( iv_die_one = 5
-                    iv_die_two = 5 ).
-      lo_cut->play( iv_die_one = 5
-                    iv_die_two = 5 ).
-    ENDDO.
-    cl_abap_unit_assert=>assert_equals( exp = 'Player 1 wins!'
-                                        act = lo_cut->play( iv_die_one = 5
-                                                            iv_die_two = 5 ) ).
+    ##TODO " Testfall sporadisch für Logikeinbau missbraucht
+    cl_abap_unit_assert=>assert_equals( exp = 6
+                                        act = mo_cut->play( iv_die_one = 8
+                                                            iv_die_two = 8 ) ).
+    cl_abap_unit_assert=>assert_equals( exp = 25
+                                        act = mo_cut->play( iv_die_one = 28
+                                                            iv_die_two = 18 ) ).
   ENDMETHOD.
 
 ENDCLASS.
