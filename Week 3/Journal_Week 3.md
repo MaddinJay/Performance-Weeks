@@ -44,3 +44,24 @@ Lesson Learned:
  - Keep it simple weiterhin eine gute Vorgehensweise
  - Auch hier wieder im Laufe der Programmierung Struktur besser erkannt und Strategie gewechselt: Zuerst beide Klassen Ladder und Snake eingeführt, dann
    erst Interface angelegt. 
+
+# Day 13
+
+Vorbereitungen:
+ - London School of TDD anwenden
+ - Skizze der GUI-Logik via PIZZA erstellt
+
+Umsetzung:
+ - Fokus auf GUI-Aufbau, mit Status und einem Spieldurchgang
+ - Fokus auf Spiel durch Player 1. Noch keine Logik in der Klasse implementieren
+ - Einfache Addition der Würfelaugen in der Method PLAY
+ - UNIT-Tests nicht aufgebaut, weil visuelle Prüfung über GUI erfolgt
+
+Lesson Learned:
+ - Spannend, wieder mal bereits die Architektur der Anwendung zu konstruieren
+ - Durch Ausblenden der Spiellogik fällt der Fokus auf die Architektur leicht
+ - Klassenstruktur erweitert (alle Anforderungen sind falsch), damit die Ergebnisse für
+   beide Spieler leichter zu visualisieren sind.
+ - Auch Ergebnisstring-Aufbau erst einmal in die GUI ausgelagert, da zum jetzigen Zeitpunkt dies
+   logischer und strukturierter erscheint (Anforderung an Method PLAY geöndert)
+ - Starres Beharren auf die Struktur der Klasse macht keinen Sinn. Flexibel in der Lösungsfindung bleiben.
