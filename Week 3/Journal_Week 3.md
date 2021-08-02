@@ -83,3 +83,21 @@ Lesson Learned:
  - Design wächst immer fort
  - Zeit ist imme knapp, daher lohnenswert, immer auf Sauberkeit zu achten
  - Abschliessende Ergebnisse in der kürze der Zeit nicht möglich, daher Fokus auf Zwischenziele wichtig
+
+# Day 15
+
+Vorbereitungen:
+ - Die drei Spielvarianten "Player x on square Y", "Player X wins" und "Game over!" als Akzeptanztests definiert
+ - Spiellogik mit wechselnden Spielern für später vorgemerkt
+
+Umsetzung:
+ - Anlage der Vier Akzeptanztests mit leerer Implementierung
+ - Sukzessive Implementierung der Akzeptanztests
+ - Verwendung von Hilfsmethoden im Test-Double, um finale Spielschritte zu simulieren
+
+Lesson Learned:
+ - Logik und Fokus auf Workflow (Wechselnde Spielter) hinten angestellt. Wirkt ein wenig irritierend.
+ - Durch Fokus auf Akzeptanztests ist Logik sehr simpel, es entsteht ein guter Flow bei der Entwicklung. 
+ - IOSP, TPP und ZOMBIES kann gut angewendet werden
+ - Mit Endergebnis soweit zufrieden, nächste Schritte dann weitere Kapselung in Objekte und Spiellogik weiter
+   modellieren.
