@@ -65,3 +65,21 @@ Lesson Learned:
  - Auch Ergebnisstring-Aufbau erst einmal in die GUI ausgelagert, da zum jetzigen Zeitpunkt dies
    logischer und strukturierter erscheint (Anforderung an Method PLAY geöndert)
  - Starres Beharren auf die Struktur der Klasse macht keinen Sinn. Flexibel in der Lösungsfindung bleiben.
+
+# Day 14
+
+Vorbereitungen:
+ - Ziel setzen: TPP und ZOPMBIES anwenden
+
+Umsetzung:
+ - Ersten Testfall "Runde 1- Player 1" definiert
+ - Testfall ausgebaut zu "Runde 1 - Player 1 und 2" 
+ - Tesfall "Runde 2 - Player 1" definiert und dann weiter ausgebaut, analog erster Testfall
+ - Konzentration auf Integration der Player in Spielklasse
+ - Implementierung soll weiter modfiziert werden, Duplikation mit Player 1 und 2 entfernt werden
+
+Lesson Learned:
+ - Konzentration auf kleine Schritte
+ - Design wächst immer fort
+ - Zeit ist imme knapp, daher lohnenswert, immer auf Sauberkeit zu achten
+ - Abschliessende Ergebnisse in der kürze der Zeit nicht möglich, daher Fokus auf Zwischenziele wichtig
